@@ -7,9 +7,9 @@ terraform {
   }
   backend "azurerm" {
 
-    resource_group_name  = "rg-jumlebaaz"
+    resource_group_name  = "Tech-Notion"
     storage_account_name = "jumlebaaz12131415"
-    container_name       = "tfstate"
+    container_name       = "git-hub-preprod"
     key                  = "preprod.tfstate"
 
   }
