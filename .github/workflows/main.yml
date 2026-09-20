@@ -1,21 +1,45 @@
-name: 'Terraform CI on My Windows Runner'
+name: 'Terraform Azure Deployment'
 
 on:
   push:
-    branches: [ "main", "feature1" ]
-  pull_request:
-    branches: [ "main", "feature1" ]
+    branches: [ "feature1" ]  # यह सिर्फ feature1 ब्रांच पर पुश होने पर चलेगा
 
 jobs:
   terraform:
     name: 'Terraform Run'
     runs-on: self-hosted
 
+    # गिटहब सीक्रेट्स को यहाँ वेरिएबल में असाइन किया गया है
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Run a Welcome Check
+    - name: Terraform Init
       shell: powershell
       run: |
-        Write-Host "Hello Bhai! Your Self-Hosted Runner is working perfectly."
+        Write-Host "Initializing Terraform..."
+        terraform init
+
+    - name: Terraform Validate
+      shell: powershell
+      run: |
+        Write-Host "Validating Terraform Configuration..."
+        terraform validate
+
+    - name: Terraform Plan
+      shell: powershell
+      run: |
+        Write-Host "Generating Deployment Plan..."
+        terraform plan -out=tfplan
+
+    - name: Terraform Apply
+      shell: powershell
+      run: |
+        Write-Host "Deploying Resources to Azure Portal..."
+        terraform apply -auto-approve tfplan
