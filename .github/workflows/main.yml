@@ -40,7 +40,7 @@ jobs:
       shell: powershell
       run: |
         Write-Host "Generating Deployment Plan..."
-        terraform plan -out=tfplan
+        terraform plan -var-file="terraform.tfvars" -out=tfplan
 
     - name: Terraform Apply
       shell: powershell
