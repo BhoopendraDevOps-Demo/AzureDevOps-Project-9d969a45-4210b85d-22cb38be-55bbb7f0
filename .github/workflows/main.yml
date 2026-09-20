@@ -1,0 +1,21 @@
+name: 'Terraform CI on My Windows Runner'
+
+on:
+  push:
+    branches: [ "main", "feature1" ]
+  pull_request:
+    branches: [ "main", "feature1" ]
+
+jobs:
+  terraform:
+    name: 'Terraform Run'
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Run a Welcome Check
+      shell: powershell
+      run: |
+        Write-Host "Hello Bhai! Your Self-Hosted Runner is working perfectly."
