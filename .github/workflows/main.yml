@@ -8,6 +8,10 @@ jobs:
   terraform:
     name: 'Terraform Run'
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ./environment/preprod
+
 
     # गिटहब सीक्रेट्स को यहाँ वेरिएबल में असाइन किया गया है
     env:
